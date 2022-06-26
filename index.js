@@ -3,9 +3,15 @@
  * @license MIT
  */
 
-/* global L */
+// URLを取得
+const url = new URL(window.location.href);
 
-;(function (window) {
+// URLSearchParamsオブジェクトを取得
+const params = url.searchParams;
+
+const imageid = params.get('imageid');
+
+(function (window) {
     function init (mapid) {
       var minZoom = 0
       var maxZoom = 5
@@ -27,17 +33,9 @@
       // set the view on a marker ...
       map.setView(rc.unproject([1589, 1447]), 4)
   
-      // add layer control object
-    //   L.control.layers({}, {
-    //     'Polygon': layerPolygon(map, rc),
-    //     'Countries': layerCountries(map, rc),
-    //     'Bounds': layerBounds(map, rc, img),
-    //     'Info': layerGeo(map, rc),
-    //     'Circles': layerCircles(map, rc)
-    //   }).addTo(map)
-  
       // the tile layer containing the image generated with gdal2tiles --leaflet ...
-      L.tileLayer('https://openconciergeorg.github.io/test/img/TH008053/{z}/{x}/{y}.png', {
+      // TH008053
+      L.tileLayer('https://openconciergeorg.github.io/test/img/' + imageid + '/{z}/{x}/{y}.png', {
         noWrap: true,
         bounds: rc.getMaxBounds(),
         maxNativeZoom: rc.zoomLevel(),
