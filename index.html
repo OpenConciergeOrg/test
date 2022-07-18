@@ -16,49 +16,44 @@
         padding: 0;
         z-index: 1;
       }
-
       .panel-side {
-        /* padding: 2px;
-        box-sizing: border-box;
-        width: 300px;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        right: 0;
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.6);
-        overflow: auto;
-        z-index: 60;
-         */
         z-index: 30;
-        width: 520px;
+        width: 300px;
         height: 100%;
         top: 0;
         left: 0;
         background-color: rgba(158,141,110,0.5);
+        /* background-color: rgba(53,53,53,0.5); */
         position: fixed;
-        padding-top: 60px;
-        padding-left: 40px;
-        padding-right: 40px;
+        padding-top: 30px;
+        padding-left: 30px;
+        padding-right: 30px;
         box-sizing: border-box;
         color: white;
         backdrop-filter: brightness(60%) blur(2px) sepia(100%) contrast(120%);
       }
+      
+      .title {
+        color: rgb(50,50,50);
+      }
     </style>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.19/esri/themes/dark/main.css"/>
   </head>
   <body>
     <div class="panel-side" id="sidepanel" >
+      <button class="esri-button" id="buttonControlSidePanel" type="button">
+        <<
+      </button>
+      <div id="metadata">
+        <div id="regionname_title" class="title">region name</div>
+        <div id="code_title" class="title">code</div>
+        <div id="name_title" class="title">name</div>
+        <div id="scale_title" class="title">scale</div>
+        <div id="color_title" class="title">color</div>
+      </div>
+      
     </div>
     <div id="map"></div>
-    <!-- <div class="panel-container">
-      <div class="panel-side esri-widget">
-        <h3>Marriage by Census Tract</h3>
-        <ul id="nyc_graphics">
-          <li>Loading&hellip;</li>
-        </ul>
-      </div>
-      <div id="map"></div>
-    </div> -->
     <script src="https://unpkg.com/leaflet@1/dist/leaflet.js"></script>
     <script src="rastercoords.js"></script>
     <script src="https://unpkg.com/esri-leaflet@^3.0.8/dist/esri-leaflet.js"></script>
