@@ -25,7 +25,7 @@ const metadata = document.getElementById('metadata');
 (function (window) {
     function init (mapid) {
       var minZoom = 0
-      var maxZoom = 5
+      var maxZoom = 7
       var img = [
         6360, // original width of image `karta.jpg`
         8362  // original height of image
