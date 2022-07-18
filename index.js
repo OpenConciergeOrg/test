@@ -2,7 +2,7 @@
  * @copyright 2015 commenthol
  * @license MIT
  */
-const apiKey = "AAPKaa6c3fb9ed42485a91895342bfc89f57sg1uva8dmkqo3nLKLAUfHNmALWOPx2TNqgWQQEWk-Z71UrpFWzHWXnuXXfkKlIcl";
+// const apiKey = "AAPKaa6c3fb9ed42485a91895342bfc89f57sg1uva8dmkqo3nLKLAUfHNmALWOPx2TNqgWQQEWk-Z71UrpFWzHWXnuXXfkKlIcl";
 const fl = "https://services1.arcgis.com/qvPIahekAMWThrhc/arcgis/rest/services/%E5%9B%B3%E5%B9%85/FeatureServer/0";
 
 // URLを取得
@@ -12,7 +12,15 @@ const url = new URL(window.location.href);
 const params = url.searchParams;
 const imageid = params.get('imageid');
 
+const regionname_title = document.getElementById('regionname_title');
+const code_title = document.getElementById('code_title');
+const name_title = document.getElementById('name_title');
+const scale_title = document.getElementById('scale_title');
+const color_title = document.getElementById('color_title');
+
 const sidepanel = document.getElementById('sidepanel');
+const buttonControlSidePanel = document.getElementById('buttonControlSidePanel');
+const metadata = document.getElementById('metadata');
 
 (function (window) {
     function init (mapid) {
@@ -27,7 +35,8 @@ const sidepanel = document.getElementById('sidepanel');
       var map = L.map(mapid, {
         crs: L.CRS.Simple,
         minZoom: minZoom,
-        maxZoom: maxZoom
+        maxZoom: maxZoom,
+        zoomControl: false
       })
   
       // assign map and image dimensions
@@ -42,10 +51,7 @@ const sidepanel = document.getElementById('sidepanel');
         noWrap: true,
         bounds: rc.getMaxBounds(),
         maxNativeZoom: rc.zoomLevel(),
-        attribution: 'Map <a href="https://commons.wikimedia.org/wiki/' +
-          'File:Karta_%C3%B6ver_Europa,_1672_-_Skoklosters_slott_-_95177.tif">' +
-          'Karta över Europa, 1672 - Skoklosters</a> under ' +
-          '<a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en">CC0</a>'
+        attribution: 'Tohoku University'
       }).addTo(map)
 
       const featureLayer = L.esri.featureLayer({
@@ -59,29 +65,22 @@ const sidepanel = document.getElementById('sidepanel');
           const properties = feature.properties;
           console.log(properties);
 
-          const regionname = document.createElement('div');
-          regionname.textContent = "region name: " + properties.area2;
-          sidepanel.appendChild(regionname);
+          function addAtt (field, title) {
+            const div = document.createElement('div');
+            const value = properties[field];
+            if (value == "") {
+              div.textContent = "-";
+            } else {
+              div.textContent = value;
+            };
+            title.parentNode.insertBefore(div, title.nextSibling); 
+          };
 
-          const code = document.createElement('div');
-          code.textContent = "code: " + properties.area3;
-          sidepanel.appendChild(code);
-
-          const name = document.createElement('div');
-          name.textContent = "name: " + properties.area_name;
-          sidepanel.appendChild(name);
-
-          const scale = document.createElement('div');
-          scale.textContent = "scale: " + properties.scale;
-          sidepanel.appendChild(scale);
-
-          const size = document.createElement('div');
-          size.textContent = "size (H*W): " + properties.height + "cm x " + properties.width + "cm";
-          sidepanel.appendChild(size);
-
-          const color = document.createElement('div');
-          color.textContent = "color: " + properties.color;
-          sidepanel.appendChild(color);
+          addAtt("area2", regionname_title);
+          addAtt("area3", code_title);
+          addAtt("area_name", name_title);
+          addAtt("scale", scale_title);
+          addAtt("color", color_title);
 
 
         });
@@ -91,3 +90,20 @@ const sidepanel = document.getElementById('sidepanel');
   
     init('map')
   }(window))
+
+let IsSidePanelOpen = true;
+
+buttonControlSidePanel.onclick = function(event){
+  if (IsSidePanelOpen == true) {
+    sidepanel.style.width = '100px';
+    metadata.style.display = 'none';
+    buttonControlSidePanel.textContent = '>>';
+    IsSidePanelOpen = false;
+  } else {
+    sidepanel.style.width = '300px';
+    metadata.style.display = 'block';
+    buttonControlSidePanel.textContent = '<<';
+    IsSidePanelOpen = true;
+  }
+  
+};
