@@ -24,8 +24,8 @@ const metadata = document.getElementById('metadata');
 
 (function (window) {
     function init (mapid) {
-      var minZoom = 0
-      var maxZoom = 7
+      var minZoom = 4
+      var maxZoom = 6
       var img = [
         6360, // original width of image `karta.jpg`
         8362  // original height of image
@@ -47,7 +47,9 @@ const metadata = document.getElementById('metadata');
   
       // the tile layer containing the image generated with gdal2tiles --leaflet ...
       // TH008053
-      L.tileLayer('https://openconciergeorg.github.io/test/img/' + imageid + '/{z}/{x}/{y}.png', {
+      var imageid = "TH000273.jpg"
+      // L.tileLayer('https://openconciergeorg.github.io/test/img/' + imageid + '/{z}/{x}/{y}.png', {
+      L.tileLayer('http://130.34.87.82/gaihozu_TohokuTiles/' + imageid + '/{z}/{x}/{y}.png', {
         noWrap: true,
         bounds: rc.getMaxBounds(),
         maxNativeZoom: rc.zoomLevel(),
@@ -57,33 +59,33 @@ const metadata = document.getElementById('metadata');
       const featureLayer = L.esri.featureLayer({
         url: fl
       })
-      featureLayer.query()
-        .where("ID = '" + imageid + "'")
-        .returnGeometry(false)
-        .run(function(error, featureCollection){
-          const feature = featureCollection.features[0];
-          const properties = feature.properties;
-          console.log(properties);
+      // featureLayer.query()
+      //   .where("ID = '" + imageid + "'")
+      //   .returnGeometry(false)
+      //   .run(function(error, featureCollection){
+      //     const feature = featureCollection.features[0];
+      //     const properties = feature.properties;
+      //     console.log(properties);
 
-          function addAtt (field, title) {
-            const div = document.createElement('div');
-            const value = properties[field];
-            if (value == "") {
-              div.textContent = "-";
-            } else {
-              div.textContent = value;
-            };
-            title.parentNode.insertBefore(div, title.nextSibling); 
-          };
+      //     function addAtt (field, title) {
+      //       const div = document.createElement('div');
+      //       const value = properties[field];
+      //       if (value == "") {
+      //         div.textContent = "-";
+      //       } else {
+      //         div.textContent = value;
+      //       };
+      //       title.parentNode.insertBefore(div, title.nextSibling); 
+      //     };
 
-          addAtt("area2", regionname_title);
-          addAtt("area3", code_title);
-          addAtt("area_name", name_title);
-          addAtt("scale", scale_title);
-          addAtt("color", color_title);
+      //     addAtt("area2", regionname_title);
+      //     addAtt("area3", code_title);
+      //     addAtt("area_name", name_title);
+      //     addAtt("scale", scale_title);
+      //     addAtt("color", color_title);
 
 
-        });
+      //   });
     }
   
     
